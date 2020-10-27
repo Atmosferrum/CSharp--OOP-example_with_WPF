@@ -43,5 +43,7 @@ namespace OOP_Organization
         }
 
         #endregion Constructor;
+
+        //Make some code
     }
 }
