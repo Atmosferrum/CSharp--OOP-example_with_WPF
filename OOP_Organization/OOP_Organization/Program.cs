@@ -8,6 +8,9 @@ namespace OOP_Organization
 {
     class Program
     {
+        static string path = "1.xml";
+
+        Repository repository = new Repository(path);
         
     }
 }

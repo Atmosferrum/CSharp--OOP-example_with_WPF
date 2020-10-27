@@ -12,11 +12,15 @@ namespace OOP_Organization
 
         public Department(string Name,
                           DateTime DateOfCreation,
-                          int NumberOfEmployees)
+                          int NumberOfEmployees,
+                          int NumberOfDepartments,
+                          string ParentDepartment)
         {
             this.name = Name;
             this.dateOfCreation = DateOfCreation;
             this.numberOfEmployees = NumberOfEmployees;
+            this.numberOfDepartments = NumberOfDepartments;
+            this.parentDepartment = ParentDepartment;
         }
 
         #endregion Constructor
@@ -26,6 +30,8 @@ namespace OOP_Organization
         private string name { get; set; }
         private DateTime dateOfCreation { get; set; }
         private int numberOfEmployees { get; set; }
+        private int numberOfDepartments { get; set; }
+        private string parentDepartment { get; set; }
 
         #endregion Fields
 
@@ -48,6 +54,18 @@ namespace OOP_Organization
         {
             get { return this.numberOfEmployees; }
             set { this.numberOfEmployees = value; }
+        }
+
+        public int NumberOfDepartments
+        {
+            get { return this.numberOfDepartments; }
+            set { this.numberOfDepartments = value; }
+        }
+
+        public string ParentDepartment
+        {
+            get { return this.parentDepartment; }
+            set { this.parentDepartment = value; }
         }
 
         #endregion Properties
