@@ -23,6 +23,10 @@ namespace OOP_Organization
         public MainWindow()
         {
             InitializeComponent();
+
+            string path = "1.xml";
+
+            Repository repository = new Repository(path);
         }
     }
 }

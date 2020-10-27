@@ -18,6 +18,8 @@ namespace OOP_Organization
 
         static public List<Department> departments; //Departments DATA array
 
+        List<XElement> xElements; //XML Data
+
         private string path; //PATH to file
 
         public int employeeIndex; //Current INDEX for employee to add
@@ -38,6 +40,7 @@ namespace OOP_Organization
             this.departmentIndex = 0;
             employees = new List<Employee>();
             departments = new List<Department>();
+            this.xElements = new List<XElement>();
 
             Create();
             Save();
@@ -51,7 +54,7 @@ namespace OOP_Organization
 
         void Create()
         {
-            AddDepartment(new Organization("Organization", DateTime.Now, null));
+            AddDepartment(new Organization("Organization", DateTime.Now, ""));
             AddDepartment(new Bureau("Management", DateTime.Now, "Organization"));
             AddDepartment(new Bureau("Strategy", DateTime.Now, "Organization"));
             AddDepartment(new Division("Marketing", DateTime.Now, "Management"));
@@ -79,13 +82,16 @@ namespace OOP_Organization
 
         void Save()
         {
-            List<XElement> xElements = new List<XElement>();
+            CreateToSave();
+        }
 
+        void CreateToSave()
+        {
             foreach (Department dept in departments)
             {
                 switch (dept)
                 {
-                    case Bureau b:                        
+                    case Bureau b:
                         XElement myBureau = new XElement(dept.GetType().ToString());
                         XAttribute bureauName = new XAttribute("name", dept.Name);
                         XAttribute bureauDateOfCreation = new XAttribute("dateOfCreation", DateTime.Now.ToShortDateString());
@@ -95,8 +101,10 @@ namespace OOP_Organization
                         myBureau.Add(bureauName,
                                      bureauDateOfCreation,
                                      bureauNumberOfEmployees,
-                                     bureauParentDepartment,
+                                     bureauNumberDepartments,
                                      bureauParentDepartment);
+
+                        EmployeeToSave(dept.Name, ref myBureau);
 
                         xElements.Add(myBureau);
                         break;
@@ -107,6 +115,8 @@ namespace OOP_Organization
                         XAttribute divisionNumberOfEmployees = new XAttribute("numberOfEmployees", dept.NumberOfEmployees);
                         XAttribute divisionNumberDepartments = new XAttribute("numberOfDepartments", dept.NumberOfDepartments);
                         XAttribute divisionParentDepartment = new XAttribute("parentDepartment", dept.ParentDepartment);
+
+                        EmployeeToSave(dept.Name, ref myDivision);
 
                         xElements.Add(myDivision);
                         break;
@@ -123,71 +133,70 @@ namespace OOP_Organization
                                            organizationNumberDepartments,
                                            organizationParentDepartment);
 
+                        EmployeeToSave(dept.Name, ref myOrganization);
+
                         xElements.Add(myOrganization);
                         break;
                 }
-
-                XElement father;
-                father = xElements.Find(item => item.Name == "Organization");
-
-                foreach (XElement x in xElements)
-                {
-                    switch (x.Attribute("parenetDepartment").ToString())
-                    {                        
-                        case "Strategy":
-                            XElement strategy;
-                            strategy = xElements.Find(item => item.Name == "Strategy");
-                            strategy.Add(x);
-                            father.Add(strategy);
-                            break; 
-                        case "Management":
-                            XElement management;
-                            management = xElements.Find(item => item.Name == "Management");
-                            management.Add(x);
-                            father.Add(management);
-                            break;
-                        default:
-                            father.Add(x);
-                            break;
-                    }
-                }
-                
-
-                
-
-                //foreach (Employee emply in employees)
-                //{
-                //    if (emply.Department == dept.Name)
-                //    {
-                //        XElement myEmployee = new XElement(emply.GetType().ToString());
-
-                //        XAttribute employeeNumber = new XAttribute("number", emply.Number);
-                //        XAttribute employeeName = new XAttribute("name", emply.Name);
-                //        XAttribute employeeLastName = new XAttribute("lastName", emply.LastName);
-                //        XAttribute employeeAge = new XAttribute("age", emply.Age);
-                //        XAttribute employeeDepartment = new XAttribute("department", emply.Department);
-                //        XAttribute employeeSalary = new XAttribute("salary", emply.Salary);
-                //        XAttribute employeeNumberOfProjects = new XAttribute("numberOfProjects", emply.DaysWorked);
-
-                //        myEmployee.Add(employeeNumber, employeeName, employeeLastName, employeeAge, employeeDepartment, employeeSalary, employeeNumberOfProjects);
-
-                //        myDepartment.Add(myEmployee);
-
-                //        ++numberOfEmployees;
-                //    }
-                //}
-
-                //XAttribute departmentNumberOfEmployees = new XAttribute("numberOfEmployees", numberOfEmployees);
-
-                //myDepartment.Add(departmentName, departmentDateOfCreation, departmentNumberOfEmployees);
-
-                //myOrganization.Add(myDepartment);
             }
 
-            //myOrganization.Save("new.xml");
+            OrganizeToSave();
         }
 
-        #endregion Methods
+        void OrganizeToSave()
+        {
+            XElement father;
+            father = xElements.Find(item => item.Name == "Organization");
+
+            foreach (XElement x in xElements)
+            {
+                switch (x.Attribute("parentDepartment").ToString())
+                {
+                    case "Strategy":
+                        XElement strategy;
+                        strategy = xElements.Find(item => item.Name == "Strategy");
+                        strategy.Add(x);
+                        father.Add(strategy);
+                        break;
+                    case "Management":
+                        XElement management;
+                        management = xElements.Find(item => item.Name == "Management");
+                        management.Add(x);
+                        father.Add(management);
+                        break;
+                    case "Organization":
+                        father.Add(x);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            father.Save("new.xml");
+        }
+
+        void EmployeeToSave(string name, ref XElement dept)
+        {
+            foreach (Employee emply in employees)
+            {
+                if (emply.Department == name)
+                {
+                    XElement myEmployee = new XElement("EMPLOYEE");
+
+                    XAttribute employeeNumber = new XAttribute("number", emply.Number);
+                    XAttribute employeeName = new XAttribute("name", emply.Name);
+                    XAttribute employeeLastName = new XAttribute("lastName", emply.LastName);
+                    XAttribute employeeAge = new XAttribute("age", emply.Age);
+                    XAttribute employeeDepartment = new XAttribute("department", emply.Department);
+                    XAttribute employeeSalary = new XAttribute("salary", emply.Salary);
+                    XAttribute employeeNumberOfProjects = new XAttribute("numberOfProjects", emply.DaysWorked);
+
+                    myEmployee.Add(employeeNumber, employeeName, employeeLastName, employeeAge, employeeDepartment, employeeSalary, employeeNumberOfProjects); ;
+                    dept.Add(myEmployee);                   
+                }
+            }
+        }
+
 
         void AddEmloyee(Employee newEmployee)
         {
@@ -202,5 +211,10 @@ namespace OOP_Organization
             //this.departments[departmentIndex] = newDepartment;
             this.departmentIndex++;
         }
+
+
+        #endregion Methods
+
+
     }
 }
