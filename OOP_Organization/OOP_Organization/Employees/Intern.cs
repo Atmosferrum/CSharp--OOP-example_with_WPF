@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OOP_Organization.Employees
 {
-    class Intern :Employee
+    class Intern : Employee
     {
 
         public Intern(int Number, string Name, string LastName, int Age, string Department, int Salary, int NumberOfProjects)
