@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace OOP_Organization
 {
-    struct Department
+    abstract class Department
     {
         #region Constructor;
 
         public Department(string Name,
                           DateTime DateOfCreation,
-                          int NumberOfEmployees,
-                          int NumberOfDepartments,
+                          //int NumberOfEmployees,
+                          //int NumberOfDepartments,
                           string ParentDepartment)
         {
             this.name = Name;
             this.dateOfCreation = DateOfCreation;
-            this.numberOfEmployees = NumberOfEmployees;
-            this.numberOfDepartments = NumberOfDepartments;
+            this.numberOfEmployees = CountEmployees();
+            this.numberOfDepartments = CountDepartments();
             this.parentDepartment = ParentDepartment;
         }
 
@@ -27,11 +27,11 @@ namespace OOP_Organization
 
         #region Fields;
 
-        private string name { get; set; }
-        private DateTime dateOfCreation { get; set; }
-        private int numberOfEmployees { get; set; }
-        private int numberOfDepartments { get; set; }
-        private string parentDepartment { get; set; }
+        protected string name { get; set; }
+        protected DateTime dateOfCreation { get; set; }
+        protected int numberOfEmployees { get; set; }
+        protected int numberOfDepartments { get; set; }
+        protected string parentDepartment { get; set; }
 
         #endregion Fields
 
@@ -78,6 +78,26 @@ namespace OOP_Organization
             return $"{this.name,15}" +
                    $"{this.dateOfCreation,15}" +
                    $"{this.numberOfEmployees}";
+        }
+
+        public virtual int CountEmployees()
+        {
+            int count = 0;
+
+            foreach (Employee emply in Repository.employees)
+                if (emply.Department == Name)
+                    ++count;
+            return count;
+        }
+
+        public virtual int CountDepartments()
+        {
+            int count = 0;
+
+            foreach (Department dept in Repository.departments)
+                if (dept.ParentDepartment == Name)
+                    ++count;
+            return count;
         }
 
         #endregion Methods

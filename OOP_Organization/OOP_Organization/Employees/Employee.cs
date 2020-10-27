@@ -16,13 +16,13 @@ namespace OOP_Organization
         private int age;
         private string department;
         private int salary;
-        private int numberOfProjects;
+        private int daysWorked;
 
         #endregion Fields
 
         #region Constuctor;
 
-        public Employee(int Number, string Name, string LastName, int Age,string Department, int Salary, int NumberOfProjects)
+        public Employee(int Number, string Name, string LastName, int Age,string Department, int Salary, int DaysWorked)
         {
             this.number = Number;
             this.name = Name;
@@ -30,7 +30,7 @@ namespace OOP_Organization
             this.age = Age;
             this.department = Department;
             this.salary = Salary;
-            this.numberOfProjects = NumberOfProjects;
+            this.daysWorked = DaysWorked;
         }
 
         #endregion Constuctor        
@@ -73,10 +73,10 @@ namespace OOP_Organization
             set { this.salary = value; }
         }
 
-        public int NumberOfProjects
+        public int DaysWorked
         {
-            get { return this.numberOfProjects; }
-            set { this.numberOfProjects = value; }
+            get { return this.daysWorked; }
+            set { this.daysWorked = value; }
         }
 
         #endregion Properties
@@ -91,7 +91,7 @@ namespace OOP_Organization
                    $"{this.age,20}" +
                    $"{this.department,20}" +
                    $"{this.salary,20}" +
-                   $"{this.numberOfProjects,20}";
+                   $"{this.daysWorked,20}";
         }
 
         #endregion Methods

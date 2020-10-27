@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OOP_Organization.Employees
+namespace OOP_Organization
 {
     class HeadOfDepartment : Employee
     {
