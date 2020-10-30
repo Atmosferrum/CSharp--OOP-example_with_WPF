@@ -89,62 +89,22 @@ namespace OOP_Organization
         {
             foreach (Department dept in departments)
             {
-                switch (dept)
-                {
-                    case Bureau b:
-                        XElement myBureau = new XElement(dept.GetType().ToString());
-                        XAttribute bureauName = new XAttribute("name", dept.Name);
-                        XAttribute bureauDateOfCreation = new XAttribute("dateOfCreation", DateTime.Now.ToShortDateString());
-                        XAttribute bureauNumberOfEmployees = new XAttribute("numberOfEmployees", dept.NumberOfEmployees);
-                        XAttribute bureauNumberDepartments = new XAttribute("numberOfDepartments", dept.NumberOfDepartments);
-                        XAttribute bureauParentDepartment = new XAttribute("parentDepartment", dept.ParentDepartment);
-                        myBureau.Add(bureauName,
-                                     bureauDateOfCreation,
-                                     bureauNumberOfEmployees,
-                                     bureauNumberDepartments,
-                                     bureauParentDepartment);
+                XElement myDepartment = new XElement(dept.GetType().ToString());
+                XAttribute departmentName = new XAttribute("name", dept.Name);
+                XAttribute departmentDateOfCreation = new XAttribute("dateOfCreation", DateTime.Now.ToShortDateString());
+                XAttribute departmentNumberOfEmployees = new XAttribute("numberOfEmployees", dept.NumberOfEmployees);
+                XAttribute departmentNumberDepartments = new XAttribute("numberOfDepartments", dept.NumberOfDepartments);
+                XAttribute departmentParentDepartment = new XAttribute("parentDepartment", dept.ParentDepartment);
+                myDepartment.Add(departmentName,
+                                 departmentDateOfCreation,
+                                 departmentNumberOfEmployees,
+                                 departmentNumberDepartments,
+                                 departmentParentDepartment);
 
-                        EmployeeToSave(dept.Name, ref myBureau);
+                EmployeeToSave(dept.Name, ref myDepartment);
 
-                        xElements.Add(myBureau);
-                        break;
-                    case Division d:
-                        XElement myDivision = new XElement(dept.GetType().ToString());
-                        XAttribute divisionName = new XAttribute("name", dept.Name);
-                        XAttribute divisionDateOfCreation = new XAttribute("dateOfCreation", DateTime.Now.ToShortDateString());
-                        XAttribute divisionNumberOfEmployees = new XAttribute("numberOfEmployees", dept.NumberOfEmployees);
-                        XAttribute divisionNumberDepartments = new XAttribute("numberOfDepartments", dept.NumberOfDepartments);
-                        XAttribute divisionParentDepartment = new XAttribute("parentDepartment", dept.ParentDepartment);
-                        myDivision.Add(divisionName,
-                                     divisionDateOfCreation,
-                                     divisionNumberOfEmployees,
-                                     divisionNumberDepartments,
-                                     divisionParentDepartment);
-
-                        EmployeeToSave(dept.Name, ref myDivision);
-
-                        xElements.Add(myDivision);
-                        break;
-                    default:
-                        XElement myOrganization = new XElement(dept.GetType().ToString());
-                        XAttribute organizationName = new XAttribute("name", dept.Name);
-                        XAttribute organizationDateOfCreation = new XAttribute("dateOfCreation", DateTime.Now.ToShortDateString());
-                        XAttribute organizationNumberOfEmployees = new XAttribute("numberOfEmployees", dept.NumberOfEmployees);
-                        XAttribute organizationNumberDepartments = new XAttribute("numberOfDepartments", dept.NumberOfDepartments);
-                        XAttribute organizationParentDepartment = new XAttribute("parentDepartment", dept.ParentDepartment);
-                        myOrganization.Add(organizationName,
-                                           organizationDateOfCreation,
-                                           organizationNumberOfEmployees,
-                                           organizationNumberDepartments,
-                                           organizationParentDepartment);
-
-                        EmployeeToSave(dept.Name, ref myOrganization);
-
-                        xElements.Add(myOrganization);
-                        break;
-                }
+                xElements.Add(myDepartment);                
             }
-
             OrganizeToSave();
         }
 
@@ -194,7 +154,7 @@ namespace OOP_Organization
                     XAttribute employeeSalary = new XAttribute("salary", emply.Salary);
                     XAttribute employeeNumberOfProjects = new XAttribute("numberOfProjects", emply.DaysWorked);
 
-                    myEmployee.Add(employeeNumber, employeeName, employeeLastName, employeeAge, employeeDepartment, employeeSalary, employeeNumberOfProjects); ;
+                    myEmployee.Add(employeeNumber, employeeName, employeeLastName, employeeAge, employeeDepartment, employeeSalary, employeeNumberOfProjects);
                     dept.Add(myEmployee);                   
                 }
             }
@@ -204,20 +164,15 @@ namespace OOP_Organization
         void AddEmloyee(Employee newEmployee)
         {
             employees.Add(newEmployee);
-            //this.employees[employeeIndex] = newEmployee;
             this.employeeIndex++;
         }
 
         void AddDepartment(Department newDepartment)
         {
             departments.Add(newDepartment);
-            //this.departments[departmentIndex] = newDepartment;
             this.departmentIndex++;
         }
 
-
         #endregion Methods
-
-
     }
 }
