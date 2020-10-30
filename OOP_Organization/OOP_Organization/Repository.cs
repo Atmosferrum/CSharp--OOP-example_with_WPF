@@ -115,6 +115,11 @@ namespace OOP_Organization
                         XAttribute divisionNumberOfEmployees = new XAttribute("numberOfEmployees", dept.NumberOfEmployees);
                         XAttribute divisionNumberDepartments = new XAttribute("numberOfDepartments", dept.NumberOfDepartments);
                         XAttribute divisionParentDepartment = new XAttribute("parentDepartment", dept.ParentDepartment);
+                        myDivision.Add(divisionName,
+                                     divisionDateOfCreation,
+                                     divisionNumberOfEmployees,
+                                     divisionNumberDepartments,
+                                     divisionParentDepartment);
 
                         EmployeeToSave(dept.Name, ref myDivision);
 
@@ -146,23 +151,21 @@ namespace OOP_Organization
         void OrganizeToSave()
         {
             XElement father;
-            father = xElements.Find(item => item.Name == "Organization");
+            father = xElements.Find(item => (string)item.Attribute("name") == "Organization");
 
             foreach (XElement x in xElements)
             {
-                switch (x.Attribute("parentDepartment").ToString())
+                switch ((string)x.Attribute("parentDepartment"))
                 {
                     case "Strategy":
                         XElement strategy;
-                        strategy = xElements.Find(item => item.Name == "Strategy");
+                        strategy = xElements.Find(item => (string)item.Attribute("name") == "Strategy");
                         strategy.Add(x);
-                        father.Add(strategy);
                         break;
                     case "Management":
                         XElement management;
-                        management = xElements.Find(item => item.Name == "Management");
+                        management = xElements.Find(item => (string)item.Attribute("name") == "Management");
                         management.Add(x);
-                        father.Add(management);
                         break;
                     case "Organization":
                         father.Add(x);
