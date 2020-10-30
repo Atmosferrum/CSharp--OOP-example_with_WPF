@@ -7,6 +7,8 @@ using System.IO;
 using System.Xml.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+//using System.Collections.ObjectModel;
+//using System.Collections.Specialized;
 
 namespace OOP_Organization
 {
@@ -37,18 +39,17 @@ namespace OOP_Organization
         {
             this.path = Path;
             this.employeeIndex = 0;
-            this.departmentIndex = 0;
-            employees = new List<Employee>();
-            departments = new List<Department>();
+            this.departmentIndex = 0;            
+            employees = new List<Employee>();            
+            departments = new List<Department>();            
             this.xElements = new List<XElement>();
-
+            //employees.CollectionChanged += EmployeesChanged;
+            //departments.CollectionChanged += DepartmentsChanged;
             Create();
             Save();
         }
 
         #endregion Constructor;
-
-
 
         #region Methods;
 
@@ -105,8 +106,32 @@ namespace OOP_Organization
 
                 xElements.Add(myDepartment);                
             }
+
             OrganizeToSave();
         }
+
+        //private void EmployeesChanged(object sender, NotifyCollectionChangedEventArgs e)
+        //{
+        //    if (e.Action == NotifyCollectionChangedAction.Add)
+        //    {
+        //        foreach (ICount i in departments)
+        //        {
+        //            i.CountEmployees();
+        //        };
+        //    }
+        //}
+
+        //private void DepartmentsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        //{
+        //    if (e.Action == NotifyCollectionChangedAction.Add)
+        //    {
+        //        foreach (ICount i in departments)
+        //        {
+        //            i.CountDepartments();
+        //        };
+        //    }
+            
+        //}
 
         void OrganizeToSave()
         {
@@ -165,6 +190,7 @@ namespace OOP_Organization
         {
             employees.Add(newEmployee);
             this.employeeIndex++;
+
         }
 
         void AddDepartment(Department newDepartment)

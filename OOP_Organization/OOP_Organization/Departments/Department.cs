@@ -18,8 +18,8 @@ namespace OOP_Organization
         {
             this.name = Name;
             this.dateOfCreation = DateOfCreation;
-            this.numberOfEmployees = CountEmployees();
-            this.numberOfDepartments = CountDepartments();
+            this.numberOfEmployees = 0;
+            this.numberOfDepartments = 0;
             this.parentDepartment = ParentDepartment;
         }
 
@@ -29,8 +29,8 @@ namespace OOP_Organization
 
         protected string name { get; set; }
         protected DateTime dateOfCreation { get; set; }
-        protected int numberOfEmployees { get; set; }
-        protected int numberOfDepartments { get; set; }
+        public int numberOfEmployees { get; set; }
+        public int numberOfDepartments { get; set; }
         protected string parentDepartment { get; set; }
 
         #endregion Fields
@@ -80,25 +80,25 @@ namespace OOP_Organization
                    $"{this.numberOfEmployees}";
         }
 
-        public virtual int CountEmployees()
-        {
-            int count = 0;
+        //public virtual int CountEmployees()
+        //{
+        //    int count = 0;
 
-            foreach (Employee emply in Repository.employees)
-                if (emply.Department == Name)
-                    ++count;
-            return count;
-        }
+        //    foreach (Employee emply in Repository.employees)
+        //        if (emply.Department == Name)
+        //            ++count;
+        //    return count;
+        //}
 
-        public virtual int CountDepartments()
-        {
-            int count = 0;
+        //public virtual int CountDepartments()
+        //{
+        //    int count = 0;
 
-            foreach (Department dept in Repository.departments)
-                if (dept.ParentDepartment == Name)
-                    ++count;
-            return count;
-        }
+        //    foreach (Department dept in Repository.departments)
+        //        if (dept.ParentDepartment == Name)
+        //            ++count;
+        //    return count;
+        //}
 
         #endregion Methods
     }
